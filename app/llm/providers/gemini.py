@@ -23,10 +23,26 @@ class GeminiProvider(LLMProvider):
 
         self.client = genai.Client(api_key=self.api_key)
 
-    def generate(self, prompt: str) -> str:
+    def generate(
+        self,
+        prompt: str,
+        system_prompt: str | None = None,
+        temperature: float = 0.2,
+        top_p: float = 0.9,
+    ) -> str:
+
+        config = {
+            "temperature": temperature,
+            "top_p": top_p,
+        }
+
+        if system_prompt:
+            config["system_instruction"] = system_prompt
+
         response = self.client.models.generate_content(
             model=self.model,
             contents=prompt,
+            config=config,
         )
 
         return response.text
