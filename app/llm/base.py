@@ -10,6 +10,7 @@ class LLMProvider(ABC):
         system_prompt: str | None = None,
         temperature: float = 0.2,
         top_p: float = 0.9,
+        response_schema: dict | None = None,
     ) -> str:
-        """Generate a text response from the LLM."""
+        """Generate a response from the LLM."""
         pass

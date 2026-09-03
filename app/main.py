@@ -9,24 +9,41 @@ load_dotenv()
 SYSTEM_PROMPT = """
 You are an AI Document Research Assistant.
 
-Your job is to answer questions clearly, accurately, and concisely.
-
-When answering questions about documents:
-- Base your answer on the provided evidence.
-- Do not invent facts.
-- If the available information is insufficient, clearly say so.
-- Prefer precise and factual explanations.
+Answer questions accurately and concisely.
+Do not invent facts.
 """
+
+
+RESPONSE_SCHEMA = {
+    "type": "object",
+    "properties": {
+        "answer": {
+            "type": "string",
+        },
+        "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+        },
+        "sources": {
+            "type": "array",
+            "items": {
+                "type": "string",
+            },
+        },
+    },
+    "required": ["answer", "confidence", "sources"],
+}
 
 
 def main():
     llm = create_llm_provider()
 
     response = llm.generate(
-        prompt="What is Retrieval-Augmented Generation and why is it useful?",
+        prompt="What is Retrieval-Augmented Generation?",
         system_prompt=SYSTEM_PROMPT,
         temperature=0.2,
         top_p=0.9,
+        response_schema=RESPONSE_SCHEMA,
     )
 
     print(response)

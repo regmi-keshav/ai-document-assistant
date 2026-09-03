@@ -2,6 +2,7 @@ import os
 
 from dotenv import load_dotenv
 from google import genai
+from google.genai import types
 
 from app.llm.base import LLMProvider
 
@@ -29,15 +30,20 @@ class GeminiProvider(LLMProvider):
         system_prompt: str | None = None,
         temperature: float = 0.2,
         top_p: float = 0.9,
+        response_schema: dict | None = None,
     ) -> str:
 
-        config = {
-            "temperature": temperature,
-            "top_p": top_p,
-        }
+        config = types.GenerateContentConfig(
+            temperature=temperature,
+            top_p=top_p,
+        )
 
         if system_prompt:
-            config["system_instruction"] = system_prompt
+            config.system_instruction = system_prompt
+
+        if response_schema:
+            config.response_mime_type = "application/json"
+            config.response_schema = response_schema
 
         response = self.client.models.generate_content(
             model=self.model,
