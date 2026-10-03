@@ -1,7 +1,7 @@
 from app.rag.embeddings import EmbeddingService
 from app.rag.vector_store import ChromaVectorStore
 
-from app.config import DOCUMENTS_PATH
+from app.config import settings
 from app.rag.loader import PDFDocumentLoader
 from app.rag.chunker import TextChunker
 
@@ -11,7 +11,7 @@ def main():
     # 1. Load documents
     # --------------------------------------------------
 
-    loader = PDFDocumentLoader(DOCUMENTS_PATH)
+    loader = PDFDocumentLoader(settings.documents_path)
 
     documents = loader.load()
 

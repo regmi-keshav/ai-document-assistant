@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 
-from app.config import TOP_K
+from app.config import settings
 from app.rag.embeddings import EmbeddingService
 from app.rag.vector_store import ChromaVectorStore
 
@@ -23,7 +23,7 @@ class Retriever:
         self,
         embedding_service: EmbeddingService,
         vector_store: ChromaVectorStore,
-        top_k: int = TOP_K,
+        top_k: int = settings.top_k,
     ):
         self.embedding_service = embedding_service
         self.vector_store = vector_store

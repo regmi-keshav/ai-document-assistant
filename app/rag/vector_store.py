@@ -1,6 +1,6 @@
 import chromadb
 
-from app.config import CHROMA_COLLECTION, CHROMA_PATH
+from app.config import settings
 
 
 class ChromaVectorStore:
@@ -12,8 +12,8 @@ class ChromaVectorStore:
 
     def __init__(
         self,
-        path: str = CHROMA_PATH,
-        collection_name: str = CHROMA_COLLECTION,
+        path: str = settings.chroma_path,
+        collection_name: str = settings.chroma_collection,
     ):
         self.client = chromadb.PersistentClient(
             path=path

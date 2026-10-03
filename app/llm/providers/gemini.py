@@ -1,9 +1,8 @@
-import os
-
 from dotenv import load_dotenv
 from google import genai
 from google.genai import types
 
+from app.config import settings
 from app.llm.base import LLMProvider
 
 
@@ -13,8 +12,8 @@ load_dotenv()
 class GeminiProvider(LLMProvider):
 
     def __init__(self):
-        self.api_key = os.getenv("GEMINI_API_KEY")
-        self.model = os.getenv("GEMINI_MODEL")
+        self.api_key = settings.gemini_api_key
+        self.model = settings.gemini_model
 
         if not self.api_key:
             raise ValueError("GEMINI_API_KEY is not set")

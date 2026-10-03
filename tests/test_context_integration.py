@@ -1,4 +1,4 @@
-from app.config import TOP_K
+from app.config import settings
 from app.rag.context import ContextBuilder
 from app.rag.embeddings import EmbeddingService
 from app.rag.retriever import Retriever
@@ -15,7 +15,7 @@ def main():
     retriever = Retriever(
         embedding_service=embedding_service,
         vector_store=vector_store,
-        top_k=TOP_K,
+        top_k=settings.top_k,
     )
 
     context_builder = ContextBuilder()

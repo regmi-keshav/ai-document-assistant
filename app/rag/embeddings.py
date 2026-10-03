@@ -1,6 +1,6 @@
 from sentence_transformers import SentenceTransformer
 
-from app.config import EMBEDDING_MODEL
+from app.config import settings
 
 
 class EmbeddingService:
@@ -11,7 +11,7 @@ class EmbeddingService:
     which embedding model is being used.
     """
 
-    def __init__(self, model_name: str = EMBEDDING_MODEL):
+    def __init__(self, model_name: str = settings.embedding_model):
         self.model = SentenceTransformer(model_name)
 
     def embed(self, texts: list[str]) -> list[list[float]]:

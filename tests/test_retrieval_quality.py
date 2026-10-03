@@ -23,7 +23,7 @@ by the retriever, vector store, embeddings, loader, chunker, or any
 other production code.
 """
 
-from app.config import CHUNK_OVERLAP, CHUNK_SIZE, DOCUMENTS_PATH
+from app.config import settings
 from app.rag.chunker import TextChunker
 from app.rag.embeddings import EmbeddingService
 from app.rag.loader import PDFDocumentLoader
@@ -127,13 +127,13 @@ def judge(chunk_source: str, chunk_text: str, query_case: dict) -> str:
 # ----------------------------------------------------------------------
 
 def build_vector_store() -> tuple[list[dict], ChromaVectorStore]:
-    loader = PDFDocumentLoader(DOCUMENTS_PATH)
+    loader = PDFDocumentLoader(settings.documents_path)
     documents = loader.load()
     print(f"Loaded documents: {len(documents)}")
 
     chunker = TextChunker(
-        chunk_size=CHUNK_SIZE,
-        chunk_overlap=CHUNK_OVERLAP,
+        chunk_size=settings.chunk_size,
+        chunk_overlap=settings.chunk_overlap,
     )
     chunks = chunker.chunk_documents(documents)
     print(f"Generated chunks: {len(chunks)}")

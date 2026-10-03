@@ -1,34 +1,39 @@
 import os
+from dataclasses import dataclass
 
 
-DOCUMENTS_PATH = os.getenv(
-    "DOCUMENTS_PATH",
-    "data/documents",
-)
+@dataclass(frozen=True)
+class Settings:
+    """Typed, environment-backed application configuration."""
 
-CHROMA_PATH = os.getenv(
-    "CHROMA_PATH",
-    "data/chroma",
-)
+    documents_path: str
+    chroma_path: str
+    chroma_collection: str
+    embedding_model: str
+    chunk_size: int
+    chunk_overlap: int
+    top_k: int
+    llm_provider: str
+    gemini_model: str | None
+    gemini_api_key: str | None
 
-CHROMA_COLLECTION = os.getenv(
-    "CHROMA_COLLECTION",
-    "documents",
-)
 
-EMBEDDING_MODEL = os.getenv(
-    "EMBEDDING_MODEL",
-    "sentence-transformers/all-MiniLM-L6-v2",
-)
+def load_settings() -> Settings:
+    return Settings(
+        documents_path=os.getenv("DOCUMENTS_PATH", "data/documents"),
+        chroma_path=os.getenv("CHROMA_PATH", "data/chroma"),
+        chroma_collection=os.getenv("CHROMA_COLLECTION", "documents"),
+        embedding_model=os.getenv(
+            "EMBEDDING_MODEL",
+            "sentence-transformers/all-MiniLM-L6-v2",
+        ),
+        chunk_size=int(os.getenv("CHUNK_SIZE", "300")),
+        chunk_overlap=int(os.getenv("CHUNK_OVERLAP", "60")),
+        top_k=int(os.getenv("TOP_K", "5")),
+        llm_provider=os.getenv("LLM_PROVIDER", "gemini"),
+        gemini_model=os.getenv("GEMINI_MODEL"),
+        gemini_api_key=os.getenv("GEMINI_API_KEY"),
+    )
 
-CHUNK_SIZE = int(
-    os.getenv("CHUNK_SIZE", "300")
-)
 
-CHUNK_OVERLAP = int(
-    os.getenv("CHUNK_OVERLAP", "60")
-)
-
-TOP_K = int(
-    os.getenv("TOP_K", "5")
-)
+settings = load_settings()
